@@ -27,16 +27,13 @@ jobs:
         with:
           gradle-version: "8.9"
 
-      
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
         with:
-          accept-android-sdk-licenses: true
           packages: |
             platform-tools
             platforms;android-35
             build-tools;35.0.0
-
 
       - name: Extract project and build APK
         shell: bash
