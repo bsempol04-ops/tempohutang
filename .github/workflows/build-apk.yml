@@ -42,6 +42,15 @@ jobs:
           mkdir -p project
           unzip -oq "$ZIP_FILE" -d project
           cd project
+
+          # Patch otomatis agar Java & Kotlin kompiler sinkron ke versi 17
+          find . -name "build.gradle*" -type f | while read -f; do
+            if ! grep -q "jvmToolchain" "$f" && ! grep -q "sourceCompatibility" "$f"; then
+              echo "Menambahkan konfigurasi Java 17 ke $f"
+              echo -e "\nandroid {\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_17\n        targetCompatibility JavaVersion.VERSION_17\n    }\n    kotlinOptions {\n        jvmTarget = '17'\n    }\n}" >> "$f"
+            fi
+          done
+
           gradle assembleDebug
 
       - name: Upload APK
